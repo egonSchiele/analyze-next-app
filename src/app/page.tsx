@@ -5,7 +5,8 @@ export default function Home() {
   const [data, setData] = useState(null);
   useEffect(() => {
     const func = async () => {
-      const json = await fetch("/api/file?file=server/app/index.html", {
+      //const json = await fetch("/api/file?file=server/app/index.html", {
+      const json = await fetch("/api/analyze", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
