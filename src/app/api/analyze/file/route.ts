@@ -1,8 +1,8 @@
-import { filePath } from "@/lib/utils";
+import * as handlers from "@/lib/handlers";
+import { filePath, parse } from "@/lib/utils";
 import fs from "fs";
 
 export const dynamic = "force-dynamic"; // defaults to auto
-
 export async function GET(request: Request) {
   const file = request.nextUrl.searchParams.get("file");
   console.log({ file });
@@ -11,5 +11,9 @@ export async function GET(request: Request) {
   }
   const data = fs.readFileSync(filePath(file), "utf8");
 
-  return Response.json({ data });
+  const headlinks = parse(data, handlers.headlinks);
+  const result = {
+    headlinks,
+  };
+  return Response.json({ result });
 }

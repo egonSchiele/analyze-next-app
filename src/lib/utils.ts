@@ -1,27 +1,19 @@
 import * as htmlparser2 from "htmlparser2";
 
-export const rootDir = process.cwd();
+export const rootAppDir = process.cwd() + "/my-app";
 
 export function filePath(path: string) {
-  return `${rootDir}/my-app/${path}`;
+  return `${rootAppDir}/${path}`;
 }
 
-export function parse(data: string) {
-  const result: (string | { [k: string]: string })[] = [];
-  const parser = new htmlparser2.Parser(
-    {
-      onopentag(name, attribs) {
-        result.push(name, attribs);
-      },
-      ontext(text) {
-        result.push("-->", text);
-      },
-      onclosetag(tagname) {
-        result.push(tagname);
-      },
-    },
-    { decodeEntities: true }
-  );
+export function parse(
+  data: string,
+  handler: (result: any[]) => Partial<htmlparser2.Handler>
+) {
+  const result: any[] = [];
+  const parser = new htmlparser2.Parser(handler(result), {
+    decodeEntities: true,
+  });
 
   parser.write(data);
   parser.end();

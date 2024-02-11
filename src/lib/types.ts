@@ -1,0 +1,3 @@
+interface Request {
+  nextUrl: URL;
+}
